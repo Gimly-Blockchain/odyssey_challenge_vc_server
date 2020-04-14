@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path"
 	"path/filepath"
 
 	"github.com/commercionetwork/didcomauth"
@@ -67,7 +68,7 @@ func (r *ResourceManager) HandleUpload(rw http.ResponseWriter, req *http.Request
 	did := req.Header.Get(didcomauth.DIDHeader)
 	res := vars["id"]
 
-	if r.Get(did) != res {
+	if path.Base(r.Get(did)) != res {
 		log.Printf("attempted access to resource %s by unauthorized did %s\n", res, did)
 		writeError(rw, http.StatusForbidden, errors.New("access to resource denied"))
 		return
@@ -82,7 +83,7 @@ func (r *ResourceManager) HandleUpload(rw http.ResponseWriter, req *http.Request
 		return
 	}
 
-	data := req.Form.Encode()
+	data := req.PostForm.Encode()
 	path := uploadSavePath(r.savePath, res)
 
 	_, err = os.Stat(path)

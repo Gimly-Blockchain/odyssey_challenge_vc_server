@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	defaultStoragePath  = "./dsb"
+	defaultStoragePath  = "./dsb-storage"
 	defaultLogPath      = "./dsb.log"
 	defaultListenAddr   = "localhost:9999"
 	defaultRedisAddr    = "127.0.0.1:6379"
