@@ -21,6 +21,20 @@ import (
 )
 
 func main() {
+
+	req, _ := http.NewRequest(http.MethodPost, "http://localhost:9999/add", nil)
+	req.Header.Set("X-DID", "did:com:12p24st9asf394jv04e8sxrl9c384jjqwejv0gf")
+	req.Header.Set("X-Resource", "/protected/upload/testing")
+	c := &http.Client{}
+	data, err := c.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if data.StatusCode != http.StatusOK {
+		log.Fatal("status code", data.StatusCode)
+	}
+
 	rawKey, err := ioutil.ReadFile("./private_signing_key.pem")
 	if err != nil {
 		log.Fatal(err)
@@ -35,12 +49,12 @@ func main() {
 
 	rpk := pk.(*rsa.PrivateKey)
 
-	req, _ := http.NewRequest(http.MethodGet, "http://localhost:9999/auth/challenge", nil)
+	req, _ = http.NewRequest(http.MethodGet, "http://localhost:9999/auth/challenge", nil)
 	req.Header.Set("X-DID", "did:com:12p24st9asf394jv04e8sxrl9c384jjqwejv0gf")
 	req.Header.Set("X-Resource", "/protected/upload/testing")
 
-	c := &http.Client{}
-	data, err := c.Do(req)
+	c = &http.Client{}
+	data, err = c.Do(req)
 	if err != nil {
 		log.Fatal(err)
 	}

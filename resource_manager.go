@@ -137,3 +137,32 @@ func (r *ResourceManager) HandleGetDocument(rw http.ResponseWriter, req *http.Re
 		return
 	}
 }
+
+func (r *ResourceManager) HandleAdd(rw http.ResponseWriter, req *http.Request) {
+	// resource
+	did := req.Header.Get(didcomauth.DIDHeader)
+	res := req.Header.Get(didcomauth.ResourceHeader)
+
+	if did == "" {
+		log.Println("empty did in Add request")
+		writeError(rw, http.StatusBadRequest, errors.New("invalid did"))
+		return
+	}
+
+	if res == "" {
+		log.Println("empty res in Add request")
+		writeError(rw, http.StatusBadRequest, errors.New("invalid res"))
+		return
+	}
+
+	savePath := uploadSavePath(r.savePath, res)
+
+	_, err := os.Stat(savePath)
+	if !os.IsNotExist(err) {
+		log.Printf("savePath resource %s has already been used before\n", savePath)
+		writeError(rw, http.StatusBadRequest, errors.New("invalid resource"))
+		return
+	}
+
+	r.Add(did, res)
+}

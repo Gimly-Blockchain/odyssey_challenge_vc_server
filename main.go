@@ -35,6 +35,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/get/{id:(?:.+)}", rm.HandleGetDocument)
+	r.HandleFunc("/add", rm.HandleAdd).Methods(http.MethodPost)
 
 	paths := []didcomauth.ProtectedMapping{
 		{

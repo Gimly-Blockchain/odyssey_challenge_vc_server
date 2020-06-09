@@ -12,6 +12,16 @@ on-disk persistence of data sent by authorized peers.
  
  - an unprotected `/get/{id}` endpoint, where users can retrieve data contained at `id`.
  
+ - an unprotected `/add` endpoint, where users can add new resources/DID pairs remotely, in a manner similar to 
+ `cmd/dsb/add/didres`.
+ 
+To use the `/add` endpoint, just do a POST request to `http://localhost:9999/add` with the following headers:
+ 
+ - `X-Resource`, resource to protect behind DID authentication
+ - `X-DID`, DID to associate to the resource
+ 
+See `cmd/dsb-do-upload` for a request example.
+ 
 The resource/DID mapping is held either in a Redis instance or in a in-memory map.
  
 The standard procedure described in `didcomauth` applies to `dsb` too.
