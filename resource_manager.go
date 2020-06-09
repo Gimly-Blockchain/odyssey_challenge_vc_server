@@ -84,16 +84,16 @@ func (r *ResourceManager) HandleUpload(rw http.ResponseWriter, req *http.Request
 	}
 
 	data := req.PostForm.Encode()
-	path := uploadSavePath(r.savePath, res)
+	savePath := uploadSavePath(r.savePath, res)
 
-	_, err = os.Stat(path)
+	_, err = os.Stat(savePath)
 	if !os.IsNotExist(err) {
-		log.Printf("path resource %s has already been used before\n", path)
+		log.Printf("savePath resource %s has already been used before\n", savePath)
 		writeError(rw, http.StatusBadRequest, errors.New("invalid resource"))
 		return
 	}
 
-	err = ioutil.WriteFile(path, []byte(data), 0755)
+	err = ioutil.WriteFile(savePath, []byte(data), 0755)
 	if err != nil {
 		log.Println(fmt.Errorf("could not save cert/signature in storage, %w", err))
 		writeError(rw, http.StatusInternalServerError, errors.New("could not save file"))
@@ -106,15 +106,15 @@ func (r *ResourceManager) HandleGetDocument(rw http.ResponseWriter, req *http.Re
 	vars := mux.Vars(req)
 	res := vars["id"]
 
-	path := uploadSavePath(r.savePath, res)
-	rawData, err := ioutil.ReadFile(path)
+	savePath := uploadSavePath(r.savePath, res)
+	rawData, err := ioutil.ReadFile(savePath)
 	if err != nil {
 		log.Printf("access to unknown id %s has been tried, refusing", res)
 		writeError(rw, http.StatusForbidden, errors.New("forbidden"))
 		return
 	}
 
-	defer os.Remove(path)
+	defer os.Remove(savePath)
 
 	values, err := url.ParseQuery(string(rawData))
 	if err != nil {
