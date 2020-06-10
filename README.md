@@ -20,11 +20,13 @@ To use the `/add` endpoint, just do a POST request to `http://localhost:9999/add
  - `X-Resource`, resource to protect behind DID authentication
  - `X-DID`, DID to associate to the resource
  
+ The standard procedure described in `didcomauth` applies to `dsb` too: DID-authenticated upload resources must be 
+ referenced under the `/protected/upload/` prefix (authorizing the `abc` 
+ resource means authenticating `/protected/upload/abc`)
+ 
 See `cmd/dsb-do-upload` for a request example.
  
 The resource/DID mapping is held either in a Redis instance or in a in-memory map.
- 
-The standard procedure described in `didcomauth` applies to `dsb` too.
 
 To build `dsb`, the standard Go procedure must be followed:
 
