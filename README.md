@@ -7,7 +7,7 @@ on-disk persistence of data sent by authorized peers.
 
 `dsb` provides the standard DID-based authentication endpoints, as well as:
 
- - a protected `/upload/{id}` endpoint, where authorized peers upload data via POST form - the `dsb` admin can 
+ - a protected `/protected/upload/{id}` endpoint, where authorized peers upload data via POST form - the `dsb` admin can 
  decide whether a DID can upload to a given id by means of the `cmd/dsb-add-didres` software,
  
  - an unprotected `/get/{id}` endpoint, where users can retrieve data contained at `id`.
