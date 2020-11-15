@@ -6,7 +6,7 @@ include ./scripts/env.sh
 .PHONY: start stop build
 
 start: ## Start.
-	DEBUG=true go run error.go resource_manager.go main.go
+	DEBUG=true go run main.go
 
 stop:
 	lsof -i tcp:9999 | awk 'NR!=1 {print $2}' | xargs kill -9 | true;

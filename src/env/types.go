@@ -1,9 +1,9 @@
-package environment
+package env
 
 import (
 	"errors"
 
-	"github.com/commercionetwork/dsb/cache"
+	"github.com/commercionetwork/dsb/src/cache"
 )
 
 const (
@@ -28,6 +28,7 @@ type Variables struct {
 	CommercioLCD  string
 	LogPath       string
 	RedisAddr     string
+	RedisPass     string
 	ListenAddr    string
 	JWTSecret     string
 	CacheType     CacheType
@@ -82,6 +83,7 @@ var evMapping = map[string]string{
 	"DSB_LOG_PATH":      "LogPath",
 	"DSB_DEBUG":         "Debug",
 	"DSB_REDIS_ADDR":    "RedisAddr",
+	"DSB_REDIS_PASS":    "RedisPass",
 	"DSB_CACHE_TYPE":    "CacheType",
 	"DSB_JWT_SECRET":    "JWTSecret",
 	"DSB_COMMERCIO_LCD": "CommercioLCD",

@@ -1,9 +1,10 @@
-package main
+package src
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/commercionetwork/dsb/src/env"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -35,10 +36,10 @@ type ResourceManager struct {
 	savePath string
 }
 
-func newResourceManager(rh, savePath string) *ResourceManager {
+func NewResourceManager(vars env.Variables) *ResourceManager {
 	return &ResourceManager{
-		savePath: savePath,
-		redis:    redisClient.NewClient(&redisClient.Options{Addr: rh}),
+		savePath: vars.StoragePath,
+		redis:    redisClient.NewClient(&redisClient.Options{Addr: vars.RedisAddr, Password: vars.RedisPass}),
 	}
 }
 

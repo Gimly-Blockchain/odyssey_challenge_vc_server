@@ -19,7 +19,7 @@ RUN go mod download
 COPY . .
 
 # Build the Go app
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -installsuffix cgo -o main .
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -installsuffix cgo -o dsbapi .
 
 ######## Start a new stage from scratch #######
 FROM alpine:latest
@@ -39,7 +39,7 @@ ENV DSB_STORAGE_PATH="/root/dsb"
 ENV DSB_LOG_PATH="/root/logs/dsb.log"
 
 # Copy the Pre-built binary file from the previous stage
-COPY --from=builder /app/main .
+COPY --from=builder /app/dsbapi .
 
 # Declare volumes to mount
 VOLUME [${LOG_DIR}]

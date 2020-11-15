@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/commercionetwork/dsb/src"
+	"github.com/commercionetwork/dsb/src/env"
 	"io"
 	"log"
 	"net/http"
@@ -14,12 +16,11 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/commercionetwork/dsb/environment"
 	"github.com/natefinch/lumberjack"
 )
 
 func main() {
-	variables, err := environment.Get()
+	variables, err := env.Get()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,7 +31,7 @@ func main() {
 	mw := io.MultiWriter(os.Stderr, lumb)
 	log.SetOutput(mw)
 
-	rm := newResourceManager(variables.RedisAddr, variables.StoragePath)
+	rm := src.NewResourceManager(variables)
 
 	r := mux.NewRouter()
 
@@ -78,7 +79,7 @@ func main() {
 	}
 }
 
-func setupLogging(v environment.Variables) io.Writer {
+func setupLogging(v env.Variables) io.Writer {
 	lumb := &lumberjack.Logger{
 		Filename:   v.LogPath,
 		MaxSize:    500,
